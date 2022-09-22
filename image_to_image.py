@@ -13,7 +13,7 @@ from diffusers import (
     LMSDiscreteScheduler,
     UNet2DConditionModel,
 )
-from diffusers.pipelines.stable_diffusion import StableDiffusionSafetyChecker
+from diffusers.pipelines.stable_diffusion #import StableDiffusionSafetyChecker
 from tqdm.auto import tqdm
 from transformers import CLIPFeatureExtractor, CLIPTextModel, CLIPTokenizer
 
@@ -48,7 +48,7 @@ class StableDiffusionImg2ImgPipeline(DiffusionPipeline):
         tokenizer: CLIPTokenizer,
         unet: UNet2DConditionModel,
         scheduler: Union[DDIMScheduler, PNDMScheduler, LMSDiscreteScheduler],
-        safety_checker: StableDiffusionSafetyChecker,
+        #safety_checker: StableDiffusionSafetyChecker,
         feature_extractor: CLIPFeatureExtractor,
     ):
         super().__init__()
@@ -59,7 +59,7 @@ class StableDiffusionImg2ImgPipeline(DiffusionPipeline):
             tokenizer=tokenizer,
             unet=unet,
             scheduler=scheduler,
-            safety_checker=safety_checker,
+            #safety_checker=safety_checker,
             feature_extractor=feature_extractor,
         )
 
@@ -200,11 +200,11 @@ class StableDiffusionImg2ImgPipeline(DiffusionPipeline):
         image = image.cpu().permute(0, 2, 3, 1).numpy()
 
         # run safety checker
-        safety_cheker_input = self.feature_extractor(
+        #safety_cheker_input = self.feature_extractor(
             self.numpy_to_pil(image), return_tensors="pt"
         ).to(self.device)
-        image, has_nsfw_concept = self.safety_checker(
-            images=image, clip_input=safety_cheker_input.pixel_values
+        image, has_nsfw_concept #= self.safety_checker(
+            images=image, #clip_input=safety_cheker_input.pixel_values
         )
 
         image = self.numpy_to_pil(image)
